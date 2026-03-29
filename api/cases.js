@@ -8,8 +8,11 @@ module.exports = async (req, res) => {
     const raw = await fs.readFile(dataFile, 'utf8');
     const cases = JSON.parse(raw);
 
-    if (req.method === 'GET') {
+    if (req.method === 'GET' || req.method === 'HEAD') {
       res.setHeader('Content-Type', 'application/json');
+      if (req.method === 'HEAD') {
+        return res.status(200).end();
+      }
       return res.status(200).json(cases);
     }
 
